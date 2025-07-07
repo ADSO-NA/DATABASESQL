@@ -1,0 +1,38 @@
+
+CREATE DATABASE InventarioTelefonos;
+GO
+USE InventarioTelefonos;
+GO
+
+
+CREATE TABLE Marca (
+    idMarca INT PRIMARY KEY IDENTITY,
+    nombreMarca VARCHAR(50) NOT NULL
+);
+
+
+CREATE TABLE Modelo (
+    idModelo INT PRIMARY KEY IDENTITY,
+    nombreModelo VARCHAR(50) NOT NULL,
+    idMarca INT FOREIGN KEY REFERENCES Marca(idMarca)
+);
+
+CREATE TABLE Telefono (
+    idTelefono INT PRIMARY KEY IDENTITY,
+    numeroSerie VARCHAR(100) UNIQUE NOT NULL,
+    idModelo INT FOREIGN KEY REFERENCES Modelo(idModelo),
+    precio DECIMAL(10, 2),
+    fechaIngreso DATE,
+    estado VARCHAR(20) -- Disponible, Vendido, En reparación, etc.
+);
+
+CREATE TABLE Categoria (
+    idCategoria INT PRIMARY KEY IDENTITY,
+    nombreCategoria VARCHAR(50)
+);
+
+CREATE TABLE TelefonoCategoria (
+    idTelefono INT FOREIGN KEY REFERENCES Telefono(idTelefono),
+    idCategoria INT FOREIGN KEY REFERENCES Categoria(idCategoria),
+    PRIMARY KEY (idTelefono, idCategoria)
+);
